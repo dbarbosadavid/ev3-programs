@@ -16,9 +16,9 @@ O objetivo foi explorar diferentes bibliotecas para controle do robô, bem como 
 
 - **`structure_neural/`**  
   Códigos de estudo sobre **estruturas neurais**:
-  - `neural_01.py`: os códigos em sequencia foram utilizados como forma de aprendizado de estrutura de redes neurais. [Neural Networks From Scratch](https://www.youtube.com/watch?v=Wo5dMEP_BbI&list=PLQVvvaa0QuDcjD5BAw2DxE6OF2tius3V3)
-  - `neural_basic.py`: versão simples de rede neural para cálculo de distância.  
-  - `neural_distance.py`: versão orientada a objetos da mesma estrutura.  
+  - `neural_1.py`: os códigos em sequência foram utilizados como forma de aprendizado da estrutura de redes neurais. [Neural Networks From Scratch](https://www.youtube.com/watch?v=Wo5dMEP_BbI&list=PLQVvvaa0QuDcjD5BAw2DxE6OF2tius3V3)
+  - `neural_basic_structure.py`: versão simples de rede neural para cálculo de distância.  
+  - `neural_distance_structure.py`: versão orientada a objetos da mesma estrutura.  
 
 ---
 
