@@ -7,7 +7,7 @@ from time import sleep
 
 # === CONFIGURAÇÕES GERAIS ===
 BLACK = 5  #5
-WHITE = 40 #45
+WHITE = 60 #45
 THRESHOLD = (BLACK + WHITE) / 2
 DRIVE_SPEED = 10  # Velocidade base
 COR_VERDE = 3  # Código da cor verde (ColorSensor.COLOR_GREEN)
