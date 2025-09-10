@@ -18,6 +18,7 @@ base = DriveBase(motor_esquerdo, motor_direito, wheel_diameter=56, axle_track=18
 
 # Variáveis da rede neural (extraídas do Java)
 def nnStep(s1, s2):
+    
     b_h1n1 = 19.84630082349111
     w_S1_h1n1 = -3.962532338601946
     w_S2_h1n1 = 4.198819054419457
@@ -44,14 +45,14 @@ def nnStep(s1, s2):
 
 # Função para seguir a linha
 def segue_linha():
-    while not (sensor_esquerdo.reflection() < 7 and sensor_direito.reflection() < 7):
+    while not (sensor_esquerdo.reflection() < 10 and sensor_direito.reflection() < 10):
         s1 = sensor_esquerdo.reflection() / 100
         s2 = sensor_direito.reflection() / 100
         mot_l, mot_r = nnStep(s1, s2)
         
         # Ajustar a velocidade dos motores
-        motor_esquerdo.run(mot_l * 3)  # multiplica por 100 para converter em duty cycle (aproximadamente)
-        motor_direito.run(mot_r * 3)
+        motor_esquerdo.run(mot_l * 4)  # multiplica por 100 para converter em duty cycle (aproximadamente)
+        motor_direito.run(mot_r * 4)
 
     # Parar os motores quando condição de parada for atingida
     motor_esquerdo.Stop()

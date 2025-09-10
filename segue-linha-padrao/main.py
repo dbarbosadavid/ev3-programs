@@ -27,7 +27,7 @@ motor_direita = Motor(Port.B)
 velocidade = 200
 black = 8
 white = 69
-treshold = 0.1
+treshold = 0.2
 
 # Função para calcular erro com base nos sensores
 def calcular_erro():

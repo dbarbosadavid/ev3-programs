@@ -17,6 +17,7 @@ color_esquerda = ColorSensor(Port.S1)
 color_direita = ColorSensor(Port.S2)
 
 # Hiperparâmetros
+n_states = 3
 alpha = 0.2       # taxa de aprendizado
 gamma = 0.9       # fator de desconto
 epsilon = 0.2     # taxa de exploração
@@ -29,7 +30,7 @@ Q = {}
 # Função para discretizar os valores de reflexão
 def get_state():
     def classify(ref):
-        if ref < 20:
+        if ref < 10:
             return 'B'  # Preto
         elif ref > 60:
             return 'W'  # Branco
