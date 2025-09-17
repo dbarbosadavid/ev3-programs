@@ -14,6 +14,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 
 # Criação dos objetos
 ev3 = EV3Brick()
+cronometro = StopWatch()
 
 color_esquerda = ColorSensor(Port.S1)
 color_direita = ColorSensor(Port.S2)
@@ -24,10 +25,8 @@ ref_direita = color_direita.reflection()
 motor_esquerda = Motor(Port.A)
 motor_direita = Motor(Port.B)
 
-velocidade = 200
-black = 8
-white = 69
-treshold = 0.2
+velocidade = 220
+treshold = 0.1
 
 # Função para calcular erro com base nos sensores
 def calcular_erro():
@@ -37,16 +36,24 @@ def calcular_erro():
     print("L: ", ref_esquerda)
     print("R: ", ref_direita)
     print("erro: ", error)
-    return error
+    return error, ref_esquerda, ref_direita
 
 # Ações baseadas no erro
 def virar_direita(error):
-    motor_esquerda.run(velocidade * error)
-    motor_direita.run(-(velocidade * error) / 2)
+    if error < 0.5:
+        motor_esquerda.run(velocidade)
+        motor_direita.run(velocidade)
+    else:
+        motor_esquerda.run(velocidade * error)
+        motor_direita.run(-(velocidade * error) / 2)
 
 def virar_esquerda(error):
-    motor_esquerda.run(-(velocidade * -error) / 2)
-    motor_direita.run(velocidade * -error)
+    if error < 0.5:
+        motor_esquerda.run(velocidade)
+        motor_direita.run(velocidade)
+    else:
+        motor_esquerda.run(-(velocidade * error) / 2)
+        motor_direita.run(velocidade * error)
 
 def seguir_em_frente():
     motor_esquerda.run(velocidade)
@@ -54,18 +61,27 @@ def seguir_em_frente():
 
 # Início do programa
 ev3.speaker.beep()
+cronometro.reset()
 
-while True:
-    error = calcular_erro()
+
+while not(ref_direita < 20 and ref_esquerda < 20):
+    error, ref_esquerda, ref_direita = calcular_erro()
     
     while error > treshold:
         virar_direita(error)
-        error = calcular_erro()
+        error, ref_esquerda, ref_direita = calcular_erro()
 
     while error < -treshold:
-        virar_esquerda(error)
-        error = calcular_erro()
+        virar_esquerda(abs(error))
+        error, ref_esquerda, ref_direita = calcular_erro()
 
     while -treshold <= error <= treshold:
         seguir_em_frente()
-        error = calcular_erro()
+        error, ref_esquerda, ref_direita = calcular_erro()
+    
+motor_esquerda.stop()
+motor_direita.stop()
+
+ev3.speaker.beep()
+
+print("Tempo total: ", cronometro.time())

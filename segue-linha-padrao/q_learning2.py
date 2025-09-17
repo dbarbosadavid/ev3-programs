@@ -26,13 +26,13 @@ black = 8
 white = 69
 treshold = 0.1
 
-def virar_direita():
-    motor_esquerda.run(velocidade // 2)
-    motor_direita.run(velocidade)
+def virar_direita(erro):
+    motor_esquerda.run((velocidade - erro)/2)
+    motor_direita.run(velocidade + erro)
 
-def virar_esquerda():
-    motor_esquerda.run(velocidade)
-    motor_direita.run(velocidade // 2)
+def virar_esquerda(erro):
+    motor_esquerda.run(velocidade + erro)
+    motor_direita.run((velocidade - erro)/2)
 
 def seguir_em_frente():
     motor_esquerda.run(velocidade)
@@ -46,51 +46,34 @@ alpha, gamma, epsilon = 0.5, 0.8, 1  # hiperparâmetros
 def get_state():
     l = color_esquerda.reflection()
     r = color_direita.reflection()
+    erro = l - r
     
     if l < 50 and r < 50:   # ambos no preto
-        return "both_black"
+        return "both_black", erro
     elif l < 30:            # só esquerda no preto
-        return "left_black"
+        return "left_black", erro
     elif r < 30:            # só direita no preto
-        return "right_black"
+        return "right_black", erro
     else:                   # ambos no branco
-        return "lost"
+        return "lost", erro
 
 def choose_action(state):
     if random.random() < epsilon or state not in Q:
         return random.choice(actions)
     return max(Q[state], key=Q[state].get)
 
-def perform_action(action):
-    if state == "right_black":
-        # gira procurando a linha
-        motor_esquerda.run(100)
-        motor_direita.run(10)
-        wait(1000)
-        motor_esquerda.stop()
-        motor_direita.stop()
-        return
-    elif state == "left_black":
-        motor_esquerda.run(10)
-        motor_direita.run(100)
-        wait(1000)
-        motor_esquerda.stop()
-        motor_direita.stop()
-        return
-    elif state == "lost":
-        motor_esquerda.run(100)
-        motor_direita.run(-100)
-        wait(400)
-        motor_esquerda.stop()
-        motor_direita.stop()
+def perform_action(action, erro):
+    erro = abs(erro) * 2
+
+
     if action == "forward":
         seguir_em_frente()
     elif action == "left":
-        virar_esquerda()  # força de curva simplificada
+        virar_esquerda(erro)  # força de curva simplificada
     elif action == "right":
-        virar_direita()
+        virar_direita(erro)
     
-    wait(100)
+    wait(200)
     motor_esquerda.stop()
     motor_direita.stop()
 
@@ -109,10 +92,10 @@ while True:
     
     epsilon = max(0.1, epsilon * 0.996)
     print(epsilon)
-    state = get_state()
+    state, erro = get_state()
     action = choose_action(state)
-    perform_action(action)
-    new_state = get_state()
+    perform_action(action, erro)
+    new_state, new_erro = get_state()
     r = reward(new_state)
 
     if state not in Q:
@@ -125,4 +108,7 @@ while True:
     Q[state][action] = old_value + alpha * (r + gamma * next_max - old_value)
 
     ev3.screen.clear()
-    ev3.screen.print("S:", state, "A:", action, "R:", r)
+    ev3.screen.print("S:", state)
+    ev3.screen.print("A:", action)
+    ev3.screen.print("R:", r)
+
