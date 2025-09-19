@@ -26,7 +26,7 @@ motor_esquerda = Motor(Port.A)
 motor_direita = Motor(Port.B)
 
 velocidade = 220
-treshold = 0.1
+treshold = 0.2
 
 # Função para calcular erro com base nos sensores
 def calcular_erro():
@@ -42,18 +42,17 @@ def calcular_erro():
 def virar_direita(error):
     if error < 0.5:
         motor_esquerda.run(velocidade)
-        motor_direita.run(velocidade)
-    else:
-        motor_esquerda.run(velocidade * error)
-        motor_direita.run(-(velocidade * error) / 2)
+        motor_direita.run(velocidade / 2)
+
+    motor_esquerda.run(velocidade * error)
+    motor_direita.run(-(velocidade * error) / 2)
 
 def virar_esquerda(error):
     if error < 0.5:
-        motor_esquerda.run(velocidade)
+        motor_esquerda.run(velocidade / 2)
         motor_direita.run(velocidade)
-    else:
-        motor_esquerda.run(-(velocidade * error) / 2)
-        motor_direita.run(velocidade * error)
+    motor_esquerda.run(-(velocidade * error) / 2)
+    motor_direita.run(velocidade * error)
 
 def seguir_em_frente():
     motor_esquerda.run(velocidade)
@@ -64,7 +63,7 @@ ev3.speaker.beep()
 cronometro.reset()
 
 
-while not(ref_direita < 20 and ref_esquerda < 20):
+while not(ref_direita < 12 and ref_esquerda < 12):
     error, ref_esquerda, ref_direita = calcular_erro()
     
     while error > treshold:
