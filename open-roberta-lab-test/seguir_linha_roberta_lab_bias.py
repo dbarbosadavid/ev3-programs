@@ -12,10 +12,9 @@ motor_esquerdo = Motor(Port.A)
 motor_direito = Motor(Port.B)
 sensor_esquerdo = ColorSensor(Port.S1)
 sensor_direito = ColorSensor(Port.S2)
-cronometro = StopWatch()
 
-# Base de movimentação
-base = DriveBase(motor_esquerdo, motor_direito, wheel_diameter=56, axle_track=180)
+cronometro = StopWatch()
+velocidadeK = 4.5
 
 # Variáveis da rede neural (extraídas do RobertaLab (Java) pós treinamento)
 def nnStep(s1, s2):
@@ -45,20 +44,24 @@ def nnStep(s1, s2):
     return mot_l, mot_r
 
 # Função para seguir a linha
+cronometro.reset()
+
 def segue_linha():
-    cronometro.reset()
     while not (sensor_esquerdo.reflection() < 10 and sensor_direito.reflection() < 10):
         s1 = sensor_esquerdo.reflection() / 100
         s2 = sensor_direito.reflection() / 100
         mot_l, mot_r = nnStep(s1, s2)
         
-        motor_esquerdo.run(mot_l * 4)
-        motor_direito.run(mot_r * 4)
+        motor_esquerdo.run(mot_l * velocidadeK)
+        motor_direito.run(mot_r * velocidadeK)
 
     print("Tempo Total:", cronometro.time())
 
 
 # Loop principal
-while True:
-    segue_linha()
+
+segue_linha()
+motor_esquerdo.stop()
+motor_direito.stop()
+ev3.speaker.beep()
 
