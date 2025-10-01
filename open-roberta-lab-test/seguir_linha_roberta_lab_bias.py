@@ -14,7 +14,7 @@ sensor_esquerdo = ColorSensor(Port.S1)
 sensor_direito = ColorSensor(Port.S2)
 
 cronometro = StopWatch()
-velocidadeK = 4.5
+velocidadeK = 4.4
 
 # Variáveis da rede neural (extraídas do RobertaLab (Java) pós treinamento)
 def nnStep(s1, s2):

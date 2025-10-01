@@ -6,8 +6,8 @@ from pybricks.parameters import Port
 from pybricks.tools import wait, StopWatch
 
 from neural_network import NeuralNetwork
+from training_data import gerar_dados, carregar_dados
 import os
-
 
 # Para treinar a rede neural do zero
 '''
@@ -19,7 +19,7 @@ try:
 except OSError:
     print("Erro ao apagar o arquivo ", filename, ". Ele pode não existir.")
 '''
-
+    
 # Inicializando o EV3 Brick e os sensores
 ev3 = EV3Brick()
 left_color_sensor = ColorSensor(Port.S1)
@@ -36,29 +36,19 @@ nn = NeuralNetwork(input_size, hidden_size, output_size)
 
 cronometro = StopWatch()
 velocidadeK = 250
+branco = 60 # valor do sensor quando está no branco (dados usados para gerar a tabela de treinamento)
+preto = 6 # valor do sensor quando está no preto (dados usados para gerar a tabela de treinamento)
 
-training_data = [
-        ([0, 1], [-1, 1]),
-        ([0.1, 0.9], [-0.75, 1]),
-        ([0.2, 0.8], [-0.5, 1]),
-        ([0.3, 0.7], [-0.25, 1]),
-        ([0.4, 0.6], [0, 1]),
-        ([0.5, 0.5], [1, 1]),
-        ([0.6, 0.4], [1, -0]),
-        ([0.7, 0.3], [1, -0.25]),
-        ([0.8, 0.2], [1, -0.5]),
-        ([0.9, 0.1], [1, -0.75]),
-        ([1, 0], [1, -1]),
-        ([1, 1], [1, 1]),
-    ]
 
 carregado = nn.load_weights() 
 
 if carregado: 
     print("Pesos carregados com sucesso.")
 else:
+    gerar_dados(branco, preto)
+    training_data = carregar_dados()
     print("Treinando do zero.")
-    for epoch in range(1000):  # Número de épocas (iterações)
+    for epoch in range(500):  # Número de épocas (iterações)
         
         total_error = 0
         for inputs, expected_output in training_data:
@@ -75,10 +65,6 @@ nn.save_weights()
 
 left_reflect = left_color_sensor.reflection()
 right_reflect = right_color_sensor.reflection()
-
-
-
-
 
 
 ev3.speaker.beep()
