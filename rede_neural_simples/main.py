@@ -6,19 +6,8 @@ from pybricks.parameters import Port
 from pybricks.tools import wait, StopWatch
 
 from neural_network import NeuralNetwork
+from menu import menu
 from training_data import gerar_dados, carregar_dados
-import os
-
-# Para treinar a rede neural do zero
-'''
-filename = "weights.json"
-
-try:
-    os.remove(filename)
-    print("Arquivo ", filename, " apagado com sucesso.")
-except OSError:
-    print("Erro ao apagar o arquivo ", filename, ". Ele pode não existir.")
-'''
     
 # Inicializando o EV3 Brick e os sensores
 ev3 = EV3Brick()
@@ -35,10 +24,12 @@ output_size = 2
 nn = NeuralNetwork(input_size, hidden_size, output_size)
 
 cronometro = StopWatch()
-velocidadeK = 250
+VELOCIDADE = 250
+EPOCAS = 1000
 branco = 60 # valor do sensor quando está no branco (dados usados para gerar a tabela de treinamento)
 preto = 6 # valor do sensor quando está no preto (dados usados para gerar a tabela de treinamento)
 
+menu()
 
 carregado = nn.load_weights() 
 
@@ -48,7 +39,7 @@ else:
     gerar_dados(branco, preto)
     training_data = carregar_dados()
     print("Treinando do zero.")
-    for epoch in range(500):  # Número de épocas (iterações)
+    for epoch in range(EPOCAS):  # Número de épocas (iterações)
         
         total_error = 0
         for inputs, expected_output in training_data:
@@ -57,6 +48,8 @@ else:
             total_error += sum(error)
                 
         if epoch % 10 == 0:
+            ev3.screen.print('Treinando') 
+            ev3.screen.print('Época ', epoch)
             print('Época ', epoch, ': Erro total ', total_error)
             print("treinando...")
             print(epoch)
@@ -81,15 +74,17 @@ while left_reflect > 6 or right_reflect > 6:
     right_input = right_reflect / 100
 
     # Passando para a rede neural
-    outputs = nn.forward([left_input, right_input])
+    outputs = nn.forward([left_input / 2, right_input / 2])
     
     # Convertendo a saída para velocidade dos motores
-    left_speed = int(outputs[0]  * velocidadeK)
-    right_speed = int(outputs[1]  * velocidadeK)
+    left_speed = int(outputs[0]  * VELOCIDADE)
+    right_speed = int(outputs[1]  * VELOCIDADE)
 
     # Aplicando a velocidade nos motores
     left_motor.run(left_speed)
     right_motor.run(right_speed)
+
+    erro = abs(left_reflect - right_reflect)
 
 cronometro.pause()
 print("Tempo total: ", cronometro.time())
