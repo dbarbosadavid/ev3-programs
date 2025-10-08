@@ -19,7 +19,7 @@ right_motor = Motor(Port.B)
 
 # Configuração da rede neural (2 entradas, 2 saídas)
 input_size = 2
-hidden_size = 2
+hidden_size = 8
 output_size = 2
 nn = NeuralNetwork(input_size, hidden_size, output_size)
 
@@ -59,7 +59,6 @@ nn.save_weights()
 left_reflect = left_color_sensor.reflection()
 right_reflect = right_color_sensor.reflection()
 
-
 ev3.speaker.beep()
 cronometro.reset()
 
@@ -74,7 +73,7 @@ while left_reflect > 6 or right_reflect > 6:
     right_input = right_reflect / 100
 
     # Passando para a rede neural
-    outputs = nn.forward([left_input / 2, right_input / 2])
+    outputs = nn.forward([left_input, right_input])
     
     # Convertendo a saída para velocidade dos motores
     left_speed = int(outputs[0]  * VELOCIDADE)
