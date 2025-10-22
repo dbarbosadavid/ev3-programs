@@ -15,14 +15,14 @@ def gerar_dados(branco, preto):
         sensor_esquerdo.append(preto + aumento * i)
         sensor_direito.append(branco - aumento * i)
         if i <= 4:
-            motor_esquerdo.append(-1 + 0.2 * i)
+            motor_esquerdo.append(-1/(i+1)**2)
             motor_direito.append(1)
         if i == 5:
                 motor_esquerdo.append(1)
                 motor_direito.append(1)
         if i >= 6:
                 motor_esquerdo.append(1)
-                motor_direito.append(1 - 0.2 * i)
+                motor_direito.append(-1/(11-i)**2)
 
     sensor_direito.append(branco)
     sensor_esquerdo.append(branco)

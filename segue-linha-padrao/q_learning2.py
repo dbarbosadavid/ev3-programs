@@ -6,9 +6,6 @@ from pybricks.parameters import Port, Button, Stop
 from pybricks.tools import wait
 import random
 
-
-
-
 # Criação dos objetos
 ev3 = EV3Brick()
 

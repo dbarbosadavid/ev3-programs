@@ -42,3 +42,6 @@ def menu():
         ev3.screen.clear()
         ev3.screen.print(branco) 
         ev3.screen.print(preto) 
+        return branco, preto
+    else:
+        return 6, 60

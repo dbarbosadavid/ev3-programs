@@ -1,37 +1,36 @@
 #!/usr/bin/env pybricks-micropython
 
-from pybricks.ev3devices import ColorSensor, Motor
+from pybricks.ev3devices import ColorSensor, Motor, UltrasonicSensor
 from pybricks.hubs import EV3Brick
 from pybricks.parameters import Port
-from pybricks.tools import wait, StopWatch
+from pybricks.tools import StopWatch
 
 from neural_network import NeuralNetwork
 from menu import menu
 from training_data import gerar_dados, carregar_dados
-    
+
 # Inicializando o EV3 Brick e os sensores
 ev3 = EV3Brick()
 left_color_sensor = ColorSensor(Port.S1)
 right_color_sensor = ColorSensor(Port.S2)
+ultrassonic_sensor = UltrasonicSensor(Port.S3)
 
 left_motor = Motor(Port.A)
 right_motor = Motor(Port.B)
 
 # Configuração da rede neural (2 entradas, 2 saídas)
 input_size = 2
-hidden_size = 8
+hidden_size = 2
 output_size = 2
 nn = NeuralNetwork(input_size, hidden_size, output_size)
 
 cronometro = StopWatch()
-VELOCIDADE = 250
-EPOCAS = 1000
-branco = 60 # valor do sensor quando está no branco (dados usados para gerar a tabela de treinamento)
-preto = 6 # valor do sensor quando está no preto (dados usados para gerar a tabela de treinamento)
+VELOCIDADE = 270 # velocidade máxima dos motores
+EPOCAS = 1000 # número de épocas para o treinamento da rede neural
 
-menu()
+branco, preto = menu() #menu de calibração das cores preto e branco com opção de retreinar a rede neural (apagar pesos salvos)
 
-carregado = nn.load_weights() 
+carregado = nn.load_weights() #retorna true se os pesos foram carregados com sucesso, false caso contrário
 
 if carregado: 
     print("Pesos carregados com sucesso.")
@@ -39,7 +38,7 @@ else:
     gerar_dados(branco, preto)
     training_data = carregar_dados()
     print("Treinando do zero.")
-    for epoch in range(EPOCAS):  # Número de épocas (iterações)
+    for epoch in range(EPOCAS):
         
         total_error = 0
         for inputs, expected_output in training_data:
@@ -64,16 +63,15 @@ cronometro.reset()
 
 while left_reflect > 6 or right_reflect > 6:
     # Coletando dados dos sensores (refletância vai de 0 a 100)
-    print("L:", left_reflect, " R:", right_reflect)
     left_reflect = left_color_sensor.reflection()
     right_reflect = right_color_sensor.reflection()
 
-    # Normalizando para [0, 1]
+    # Normalizando as entradas de refletância para [0, 1] (valores entendidos pela rede neural)
     left_input = left_reflect / 100
     right_input = right_reflect / 100
 
     # Passando para a rede neural
-    outputs = nn.forward([left_input, right_input])
+    outputs = nn.forward([left_input, right_input]) # retorna uma lista de 2 valores (velocidades dos motores entre -1 e 1)
     
     # Convertendo a saída para velocidade dos motores
     left_speed = int(outputs[0]  * VELOCIDADE)
@@ -83,7 +81,6 @@ while left_reflect > 6 or right_reflect > 6:
     left_motor.run(left_speed)
     right_motor.run(right_speed)
 
-    erro = abs(left_reflect - right_reflect)
 
 cronometro.pause()
 print("Tempo total: ", cronometro.time())
