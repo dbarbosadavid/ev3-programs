@@ -25,7 +25,7 @@ output_size = 2
 nn = NeuralNetwork(input_size, hidden_size, output_size)
 
 cronometro = StopWatch()
-VELOCIDADE = 270 # velocidade máxima dos motores
+VELOCIDADE = 250 # velocidade máxima dos motores
 EPOCAS = 1000 # número de épocas para o treinamento da rede neural
 
 branco, preto = menu() #menu de calibração das cores preto e branco com opção de retreinar a rede neural (apagar pesos salvos)
