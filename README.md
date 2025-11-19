@@ -1,47 +1,69 @@
-# 🤖 Iniciação Científica – Robótica com LEGO EV3  
+# 🤖 Projetos de Robótica com LEGO EV3 — Controle, IA e Aprendizado de Máquina
 
-Este repositório reúne os códigos desenvolvidos durante o projeto de **Iniciação Científica em Inteligência Artificial aplicada à Robótica**, utilizando o kit **LEGO Mindstorms EV3**.  
-O objetivo foi explorar diferentes bibliotecas para controle do robô, bem como o uso de **estruturas neurais simples**.  
+Este repositório reúne diversas abordagens de controle aplicadas ao LEGO Mindstorms EV3, variando desde algoritmos tradicionais (como PID) até técnicas avançadas de Inteligência Artificial, como Redes Neurais e Q-Learning.
 
----
-
-## 📂 Estrutura do Repositório  
-
-- **`pybricks/`**  
-  Contém códigos em [Pybricks](https://pybricks.com/ev3-micropython/index.html), voltados para o controle básico do EV3.  
-  > Os exemplos são simples e podem ser encontrados também na documentação oficial da LEGO.  
-
-- **`ev3dev2/`**  
-  Implementações equivalentes aos códigos em Pybricks, mas utilizando a biblioteca [ev3dev2](https://github.com/ev3dev/ev3dev-lang-python?tab=readme-ov-file), que oferece recursos mais avançados.  
-
-- **`structure_neural/`**  
-  Códigos de estudo sobre **estruturas neurais**:
-  - `neural_1.py`: os códigos em sequência foram utilizados como forma de aprendizado da estrutura de redes neurais. [Neural Networks From Scratch](https://www.youtube.com/watch?v=Wo5dMEP_BbI&list=PLQVvvaa0QuDcjD5BAw2DxE6OF2tius3V3)
-  - `neural_basic_structure.py`: versão simples de rede neural para cálculo de distância.  
-  - `neural_distance_structure.py`: versão orientada a objetos da mesma estrutura.  
+Cada pasta contém um projeto independente, e nesta raiz você encontra uma visão geral de todos eles.
 
 ---
 
-## 🚀 Tecnologias Utilizadas  
+# 📚 Documentação Teórica
 
-- Micropython/Python  
-- Pybricks  
-- ev3dev2  
-- LEGO Mindstorms EV3  
+Todo o conteúdo teórico está agora organizado em:
 
----
+👉 **[`/docs`](docs/)**  
 
-## 🔧 Como Executar  
-
-1. EV3 com cartão microSD configurado corretamente para rodar **Pybricks** ou **ev3dev2**.  
-2. Conecte o seu computador com o bloco EV3.  
-3. Salve e execute os códigos utilizando o Visual Studio Code.  
-
-> ⚠️ Observação: os códigos foram criados para fins de **aprendizado e pesquisa**, podendo precisar de ajustes conforme o setup de hardware e software do usuário.  
+- [Controle PID](docs/PID.md)  
+- [Redes Neurais no EV3](docs/Redes_Neurais.md)  
+- [Q-Learning](docs/Q_Learning.md)  
 
 ---
 
-## 🎯 Objetivo Acadêmico  
+# 📁 Estrutura Geral
 
-Este repositório foi desenvolvido como parte do projeto de Iniciação Científica no **Instituto Federal de São Paulo (IFSP - BTV)**, com foco na integração de **Inteligência Artificial e Robótica Educacional**.  
+EV3-PROGRAMS/   
+│  
+├── open_roberta_lab_weigths/ → Rede neural exportada do Open Roberta   
+├── q_learning/ → Aprendizado por Reforço aplicado ao EV3   
+├── rede_neural_interna_ev3/ → Rede neural manual implementada no EV3     
+├── segue_linha_basico/ → Seguidor de linha simples com threshold  
+├── segue_linha_pid/ → Seguidor de linha avançado com PID   
+│   
+├── docs/ → Documentação teórica (PID, NN, RL)   
+└── README.md → Este arquivo
 
+---
+
+# 🔗 Índice Navegável dos Projetos
+
+- 👉 [Segue Linha Básico](segue_linha_basico/)
+- 👉 [Segue Linha PID](segue_linha_pid/)
+- 👉 [Rede Neural Interna](rede_neural_interna_ev3/)
+- 👉 [Open Roberta Weights](open_roberta_lab_weigths/)
+- 👉 [Q-Learning](q_learning/)
+
+---
+
+# ▶️ Como Executar
+
+1. Conecte o EV3 ao computador  
+2. Abra o VS Code  
+3. Instale a extensão **Pybricks**  
+4. Abra a pasta do projeto desejado  
+5. Execute o arquivo `.py` usando “Run on Device”  
+
+---
+
+# 🛠️ Requisitos
+
+- LEGO EV3  
+- Pybricks Firmware  
+- VS Code + Extensão Pybricks  
+- Cabo USB  
+
+---
+
+# 📄 Licença
+
+Este projeto está licenciado sob a licença [MIT](https://mit-license.org/).
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
