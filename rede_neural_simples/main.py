@@ -25,7 +25,7 @@ output_size = 2
 nn = NeuralNetwork(input_size, hidden_size, output_size)
 
 cronometro = StopWatch()
-VELOCIDADE = 250 # velocidade máxima dos motores
+VELOCIDADE = 230 # velocidade máxima dos motores
 EPOCAS = 1000 # número de épocas para o treinamento da rede neural
 
 branco, preto = menu() #menu de calibração das cores preto e branco com opção de retreinar a rede neural (apagar pesos salvos)
@@ -76,6 +76,8 @@ while left_reflect > 6 or right_reflect > 6:
     # Convertendo a saída para velocidade dos motores
     left_speed = int(outputs[0]  * VELOCIDADE)
     right_speed = int(outputs[1]  * VELOCIDADE)
+
+    print(left_speed, right_speed)
 
     # Aplicando a velocidade nos motores
     left_motor.run(left_speed)
