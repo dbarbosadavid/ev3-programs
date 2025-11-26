@@ -67,3 +67,10 @@ EV3-PROGRAMS/
 Este projeto está licenciado sob a licença [MIT](https://mit-license.org/).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
+# Autores
+
+| Nome | LinkedIn | GitHub |
+| :--- | :---: | :---: |
+| **Flavia Goes** | <a href="https://www.linkedin.com/in/flaviagoes/"><img src="https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white" target="_blank"></a> | <a href="https://github.com/flaviagoes"><img src="https://img.shields.io/badge/-GitHub-black?style=flat-square&logo=Linkedin&logoColor=white" target="_blank"></a> |
+| **David Barbosa** | <a href="https://www.linkedin.com/in/david-barbosa-29521a266/"><img src="https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white" target="_blank"></a> | <a href="https://github.com/dbarbosadavid/"><img src="https://img.shields.io/badge/-GitHub-black?style=flat-square&logo=Linkedin&logoColor=white" target="_blank"></a> |
